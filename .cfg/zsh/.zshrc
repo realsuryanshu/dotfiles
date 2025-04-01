@@ -62,7 +62,7 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 
-# Load completions
+# Lad completions
 autoload -U compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
@@ -90,11 +90,11 @@ setopt hist_find_no_dups
 ################
 
 export LF_ICONS="\
-tw=:\
-st=:\
-ow=:\
-dt=:\
-di=:\
+tw=:\
+st=:\
+ow=:\
+dt=:\
+di=:\
 fi=:\
 ln=:\
 or=:\

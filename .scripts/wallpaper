@@ -1,6 +1,6 @@
 #!/bin/sh
 
-target_directory="$HOME/Pictures/wallpapers"
+target_directory="$HOME/pictures/wallpapers"
 [[ ! -d "$target_directory" ]] && echo "Error: Directory $target_directory does not exist." && exit 1
 
 update_width() {

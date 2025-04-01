@@ -35,7 +35,7 @@ update_width() {
     fi
 }
 
-dir="$HOME/Documents/pdfs"
+dir="$HOME/documents/pdfs"
 
 [[ ! -d "$dir" ]] && echo "Error: Directory $dir does not exist." && exit 1
 
@@ -45,7 +45,7 @@ while true; do
     
     category=$((find "$dir" -maxdepth 1 -type d ! -path "$dir" | sed 's|^'"$dir"'/||' | sort; find "$dir" -maxdepth 1 -type f | sed 's|^'"$dir"'/||' | sort) | rofi -dmenu -no-fixed-num-lines -i -theme ~/.config/rofi/mythemes/pdfs.rasi -p "")
     
-    [ -z "$category" ] && { [ "$dir" != "$HOME/Documents/pdfs" ] && dir=$(dirname "$dir") || exit; continue; }
+    [ -z "$category" ] && { [ "$dir" != "$HOME/documents/pdfs" ] && dir=$(dirname "$dir") || exit; continue; }
     
     if [ -d "$dir/$category" ]; then
         dir="$dir/$category"

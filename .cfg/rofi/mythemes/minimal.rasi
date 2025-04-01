@@ -1,7 +1,7 @@
 * {
     background-color: rgba(0,0,0,0.1);
     border-color:          White;
-    text-color: #c6c6c8;
+    text-color: #c7cac6;
     font:            "SF Pro Display 14";
 
     border: 0;
@@ -34,7 +34,7 @@ element {
 }
 
 element selected {
-    background-color: #5C7CA4;
+    background-color: #99A26C;
 }
 
 element-text, element-icon {
