@@ -133,6 +133,9 @@ window#waybar{
     color:@color7;
 
 }
+#bluetooth.connected {
+    color: #42b72d;
+}
 #network{
     padding: 0px 5px;
     transition: all .3s ease;

@@ -17,8 +17,8 @@ export PATH="$HOME/.local/bin:$PATH"
 #############
 
 alias p='sudo pacman'
-alias l='ls -a'
-alias ll='ls -la'
+alias l='ls -AL'
+alias ll='ls -Al'
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
