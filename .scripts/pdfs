@@ -1,0 +1,59 @@
+#!/bin/sh
+
+update_width() {
+    local dir="$1"
+    local rasi_file="$HOME/.config/rofi/mythemes/pdfs.rasi"
+    local max_length=0
+    local max_item=""
+    
+    items=$(ls -A "$dir")
+    
+    if [[ -z "$items" ]]; then
+        width=100
+        echo "Directory is empty. Setting width to 100px."
+    else
+        while IFS= read -r item; do
+            item_length=${#item}
+            if (( item_length > max_length )); then
+                max_length=$item_length
+                max_item=$item
+            fi
+        done <<< "$items"
+        
+        width=$(echo "$max_length * 10" | bc)
+        echo "Maximum length: $max_length characters"
+        echo "Item with maximum length: $max_item"
+        echo "Calculated width: ${width}px"
+    fi
+    
+    if [[ -f "$rasi_file" ]]; then
+        sed -i "s/^\s*width:\s*\(.*\)/width: ${width}px;/" "$rasi_file"
+        echo "Updated width in $rasi_file to ${width}px"
+    else
+        echo "Error: RASI file not found at $rasi_file"
+        exit 1
+    fi
+}
+
+dir="$HOME/Documents/pdfs"
+
+[[ ! -d "$dir" ]] && echo "Error: Directory $dir does not exist." && exit 1
+
+pdf=""
+while true; do
+    update_width "$dir"
+    
+    category=$((find "$dir" -maxdepth 1 -type d ! -path "$dir" | sed 's|^'"$dir"'/||' | sort; find "$dir" -maxdepth 1 -type f | sed 's|^'"$dir"'/||' | sort) | rofi -dmenu -no-fixed-num-lines -i -theme ~/.config/rofi/mythemes/pdfs.rasi -p "")
+    
+    [ -z "$category" ] && { [ "$dir" != "$HOME/Documents/pdfs" ] && dir=$(dirname "$dir") || exit; continue; }
+    
+    if [ -d "$dir/$category" ]; then
+        dir="$dir/$category"
+    else
+        pdf="$category"
+        break
+    fi
+done
+
+zathura "$dir/$pdf"
+

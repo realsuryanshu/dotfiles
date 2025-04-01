@@ -1,0 +1,1 @@
+/home/suryanshu/.cfg/zsh/.zshrc

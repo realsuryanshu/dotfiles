@@ -1,0 +1,15 @@
+﻿#ImagePreview (libsixel and chafa needed for foot terminal)
+set previewer ~/.config/lf/preview
+
+
+# Basic
+set hidden true
+set scrolloff 10
+set icons
+set sixel true
+
+#Key mappings
+map x cut
+map c copy
+map v paste
+map D delete

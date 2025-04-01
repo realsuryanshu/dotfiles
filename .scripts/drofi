@@ -1,0 +1,37 @@
+#!/bin/sh
+
+commands=$(compgen -c)
+
+if [[ -z "$commands" ]]; then
+    echo "Error: No commands found."
+    exit 1
+fi
+
+max_length=0
+max_command=""
+
+while IFS= read -r command; do
+    command_length=${#command}
+    if (( command_length > max_length )); then
+        max_length=$command_length
+        max_command=$command
+    fi
+done <<< "$commands"
+
+width=$(echo "$max_length * 8.6" | bc)
+
+echo "Maximum length: $max_length characters"
+echo "Command with maximum length: $max_command"
+echo "Calculated width: ${width}px"
+
+rasi_file="$HOME/.config/rofi/mythemes/minimal.rasi"
+
+if [[ -f "$rasi_file" ]]; then
+    sed -i "s/^\(width:\s*\).*/\1${width}px;/" "$rasi_file"
+    echo "Updated width in $rasi_file to ${width}px;"
+else
+    echo "Error: RASI file not found at $rasi_file"
+    exit 1
+fi
+
+rofi -show run -no-fixed-num-lines

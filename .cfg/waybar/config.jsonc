@@ -1,0 +1,174 @@
+{
+"layer": "top",
+"position": "top",
+"reload_style_on_change": true,
+"modules-left": ["clock","tray"],
+"modules-center": ["hyprland/workspaces"],
+"modules-right": ["privacy","custom/cam","group/expand","pulseaudio","bluetooth","custom/nightlight","battery","network"],
+
+
+"hyprland/workspaces": {
+"format": "{icon}",
+"format-icons": {
+"active":  "",
+"default": "",
+"empty":   ""
+},
+
+"persistent-workspaces": {
+"*": [ 1,2,3,4,5 ]
+}
+},
+
+"privacy": {
+	"icon-spacing": 4,
+	"icon-size": 18,
+	"transition-duration": 250,
+	"modules": [
+		{
+			"type": "screenshare",
+			"tooltip": true,
+			"tooltip-icon-size": 24
+		},
+		{
+			"type": "audio-out",
+			"tooltip": true,
+			"tooltip-icon-size": 24
+		},
+		{
+			"type": "audio-in",
+			"tooltip": true,
+			"tooltip-icon-size": 24
+		}
+	]
+},
+
+"pulseaudio": {
+"format": " {icon}  {format_source} ",
+"format-bluetooth": "{volume}% {icon} {format_source}",
+"format-bluetooth-muted": " {icon} {format_source}",
+"format-muted": "󰖁  {format_source}",
+"format-source": "{volume}%   ",
+"format-source-muted": " ",
+"tooltip": true,
+"tooltip-format": "{volume}% {icon} {format_source}",
+"format-icons": {
+"headphone": "",
+"hands-free": "󰙌",
+"headset": "󰋎",
+"phone": "",
+"portable": "",
+"car": "",
+"default": [" ", " ", " "]
+},
+"on-click": "pavucontrol"
+},
+
+"custom/notification": {
+"tooltip":true,     
+"tooltip-format": "{} Notifications",
+"format": " {icon} ",
+"format-icons": {
+"notification": "<span foreground='red'><sup></sup></span>",
+"none": "",
+"dnd-notification": "<span foreground='red'><sup></sup></span>",
+"dnd-none": "",
+"inhibited-notification": "<span foreground='red'><sup></sup></span>",
+"inhibited-none": "",
+"dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+"dnd-inhibited-none": ""
+},
+"return-type": "json",
+"exec-if": "which swaync-client",
+"exec": "swaync-client -swb",
+"on-click": "sleep 0.1 && swaync-client -t -sw",
+"on-click-right": "swaync-client -d -sw",
+"escape": true
+},
+
+"clock": {
+"format": "󰃭  {:%a %e %b %I:%M}",
+"format-alt": "󰥔 {:%r}",
+"interval": 1,   
+"tooltip-format": "<tt>{calendar}</tt>",
+"calendar": {
+"format": {
+"today": "<span color='#71cc63'><b>{}</b></span>"
+}
+}
+},
+
+"custom/cam": {
+  "format": "{}",
+  "return-type": "json",
+  "interval": 1,
+  "exec": "echo '{ \"text\" : \"󰄀\", \"class\": \"used\"}'",
+  "exec-if": "~/.config/waybar/scripts/cam.sh"
+},
+
+"network": {
+"format": "{ifname}",
+"format-wifi": " {icon} ",
+"format-ethernet": "󰈀  {ipaddr}/{cidr}",
+"format-disconnected": "󰤭",
+"max-length": 50,
+"interval": 1,
+"format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+"on-click": "foot nmtui",
+"tooltip": false
+},
+
+"bluetooth": {
+"format-on": " 󰂯 ",
+"format-off": " BT-off ",
+"format-disabled": " 󰂲 ",
+"format-connected-battery": "{device_battery_percentage}% 󰂯",
+"format-alt": "{device_alias} 󰂯 ",
+"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+"tooltip-format-enumerate-connected": "{device_alias}\n{device_address}",
+"tooltip-format-enumerate-connected-battery": "{device_alias}\n{device_address}\n{device_battery_percentage}%",
+"on-click-right": "blueman-manager"
+}, 
+
+"custom/nightlight": {
+  "format": " {icon} ",
+  "format-icons": ["󰖨"],
+  "tooltip": false,
+  "on-click-right": "killall gammastep",
+  "on-click": "gammastep -O 3000 &"
+},
+
+"battery": {
+"format": " {icon} ",
+"format-full": " {icon} ",
+"format-charging": " {icon} 󱐋",
+"format-plugged": "",
+"format-icons": ["","","","","","","","","","",""],
+"tooltip": true,
+"tooltip-format": "{capacity}%",
+"interval": 1
+},
+
+"custom/expand": {
+"format": "",
+"tooltip": false
+},
+
+"group/expand": {
+"orientation": "horizontal",
+"drawer": {
+"transition-duration": 600,
+"transition-to-left": true,
+"click-to-reveal": true
+},
+
+"modules": ["custom/expand","custom/notification"]
+},
+
+"tray": {
+"icon-size": 14,
+"spacing": 10
+}
+} 
+

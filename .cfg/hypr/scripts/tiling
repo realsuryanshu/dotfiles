@@ -1,0 +1,7 @@
+#!/bin/sh
+
+hyprctl dispatch workspaceopt allfloat
+
+sed -i '/^windowrulev2 = float, class:.\*/ s/^/#/' ~/.config/hypr/hyprland.conf
+
+hyprctl reload

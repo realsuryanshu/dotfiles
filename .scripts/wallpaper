@@ -1,0 +1,69 @@
+#!/bin/sh
+
+target_directory="$HOME/Pictures/wallpapers"
+[[ ! -d "$target_directory" ]] && echo "Error: Directory $target_directory does not exist." && exit 1
+
+update_width() {
+    local dir="$1"
+    local rasi_file="$HOME/.config/rofi/mythemes/wallpaper.rasi"
+    local max_length=0
+    local max_item=""
+
+    items=$(ls -A "$dir")
+
+    if [[ -z "$items" ]]; then
+        width=100
+        echo "Directory is empty. Setting width to 100px."
+    else
+        while IFS= read -r item; do
+            item_length=${#item}
+            if (( item_length > max_length )); then
+                max_length=$item_length
+                max_item=$item
+            fi
+        done <<< "$items"
+
+        width=$(echo "$max_length * 10" | bc)
+        echo "Maximum length: $max_length characters"
+        echo "Item with maximum length: $max_item"
+        echo "Calculated width: ${width}px"
+    fi
+
+    if [[ -f "$rasi_file" ]]; then
+        sed -i "s/^\s*width:\s*\(.*\)/width: ${width}px;/" "$rasi_file"
+        echo "Updated width in $rasi_file to ${width}px"
+    else
+        echo "Error: RASI file not found at $rasi_file"
+        exit 1
+    fi
+}
+
+dir="$target_directory"
+wallpaper=""
+
+while true; do
+    update_width "$dir"
+
+    selection=$( (find "$dir" -maxdepth 1 -type d ! -path "$dir" | sed 's|^'"$dir"'/||' | sort; find "$dir" -maxdepth 1 -type f | sed 's|^'"$dir"'/||' | sort) | rofi -dmenu -no-fixed-num-lines -i -theme "$HOME/.config/rofi/mythemes/wallpaper.rasi" -p "")
+
+    if [ $? -ne 0 ]; then
+        if [ "$dir" = "$target_directory" ]; then
+            exit 0
+        else
+            dir=$(dirname "$dir")
+            continue
+        fi
+    fi
+
+    [ -z "$selection" ] && continue
+    
+    if [ -d "$dir/$selection" ]; then
+        dir="$dir/$selection"
+    else
+        wallpaper="$selection"
+        break
+    fi
+done
+
+swww img "$dir/$wallpaper" --transition-type none && wal -i "$dir/$wallpaper" && ~/.config/rofi/mythemes/pywalrofi
+
